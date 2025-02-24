@@ -51,7 +51,6 @@ import RealityKit
             // Fallback on earlier versions
             Text("Please upgrade to iOS 18 or later.")
         }
-        StartScreen()
     }
     
 }
