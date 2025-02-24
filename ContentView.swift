@@ -83,6 +83,17 @@ struct ARRealityView: UIViewRepresentable {
             let shakeDistance: Float = 0.05
 
             // Step 1: Shake right.
+            let modelEntity = tappedEntity as? ModelEntity;
+
+                        // Step 0: Change the sphere's color to a random color.
+                        let randomColor = UIColor(
+                            red: CGFloat.random(in: 0...1),
+                            green: CGFloat.random(in: 0...1),
+                            blue: CGFloat.random(in: 0...1),
+                            alpha: 1.0
+                        )
+            modelEntity?.model?.materials = [SimpleMaterial(color: randomColor, isMetallic: true)]
+            
             tappedEntity.move(
                 to: Transform(translation: originalTranslation + SIMD3<Float>(shakeDistance, 0, 0)),
                 relativeTo: tappedEntity.parent,
