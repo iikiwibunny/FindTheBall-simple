@@ -1,7 +1,10 @@
 import SwiftUI
 import RealityKit
 
-
+//let gradientColors: [Color] = [
+    //.gradientTop,
+    //.gradientBottom
+//]
 
     struct ContentView: View {
     @State private var tapped = false
@@ -18,12 +21,15 @@ import RealityKit
         
     
     var body: some View {
+            /*.background(Gradient(colors: gradientColors))
+            .tabViewStyle(.page)*/
+
         
         if #available(iOS 18.0, *) {
             RealityView { content in
                 // Create simple material and mesh
                 let simpleMaterial = SimpleMaterial(color: .blue, isMetallic: true)
-                let sphereMesh = MeshResource.generateSphere(radius: 0.2)
+                let sphereMesh = MeshResource.generateSphere(radius: 0.5)
                 
                 // Create ModelComponent
                 let modelComponent = ModelComponent(mesh: sphereMesh, materials: [simpleMaterial])
@@ -45,6 +51,7 @@ import RealityKit
             // Fallback on earlier versions
             Text("Please upgrade to iOS 18 or later.")
         }
+        StartScreen()
     }
     
 }
