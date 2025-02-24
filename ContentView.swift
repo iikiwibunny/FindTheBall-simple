@@ -4,10 +4,10 @@ import ARKit
 
 struct ContentView: View {
     @State private var isModelVisible = true  // Controls sphere creation
-
+    @State private var score = 0
     var body: some View {
         if #available(iOS 18.0, *) {
-            ARRealityView(isModelVisible: $isModelVisible)
+            ARRealityView(isModelVisible: $isModelVisible, score: $score)
                 .ignoresSafeArea()
         } else {
             Text("Please upgrade to iOS 18 or later.")
@@ -17,13 +17,18 @@ struct ContentView: View {
 
 struct ARRealityView: UIViewRepresentable {
     @Binding var isModelVisible: Bool
-
+    @Binding var score: Int
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
+        Text(score.description)
+            .font(.title)
+            .fontWeight(.semibold)
+            .padding(.top)
+            .foregroundStyle(.pink)
         // Configure AR session.
         let config = ARWorldTrackingConfiguration()
         arView.session.run(config)
@@ -77,6 +82,7 @@ struct ARRealityView: UIViewRepresentable {
             guard let arView = sender.view as? ARView,
                   let tappedEntity = arView.entity(at: sender.location(in: arView)),
                   tappedEntity.name == "SphereEntity" else { return }
+            //tappedEntity.parent.view.score += 5
 
             // Capture the original position.
             let originalTranslation = tappedEntity.transform.translation
