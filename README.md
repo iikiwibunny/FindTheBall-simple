@@ -27,7 +27,7 @@ FindTheBall-simple is a simple AR application built with SwiftUI, RealityKit, an
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/FindTheBall-simple.git
+   git clone https://github.com/iikiwibunny/FindTheBall-simple.git
    ```
 
 2. **Open the Project in Xcode:**
