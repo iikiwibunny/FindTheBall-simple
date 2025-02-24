@@ -2,6 +2,7 @@ import SwiftUI
 import RealityKit
 import ARKit
 
+
 struct ContentView: View {
     @State private var isModelVisible = true  // Controls sphere creation
     @State private var score = 0
@@ -12,6 +13,7 @@ struct ContentView: View {
         } else {
             Text("Please upgrade to iOS 18 or later.")
         }
+        //ScoreDisplay(score: $score)
     }
 }
 
@@ -19,16 +21,17 @@ struct ARRealityView: UIViewRepresentable {
     @Binding var isModelVisible: Bool
     @Binding var score: Int
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        return Coordinator(score: $score) // Pass the score binding to the coordinator
     }
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
+        /*
         Text(score.description)
             .font(.title)
             .fontWeight(.semibold)
-            .padding(.top)
-            .foregroundStyle(.pink)
+            .padding(.top)*/
+        
         // Configure AR session.
         let config = ARWorldTrackingConfiguration()
         arView.session.run(config)
@@ -76,13 +79,19 @@ struct ARRealityView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject {
+        @Binding var score: Int
         var sphereEntity: Entity?
+        init(score: Binding<Int>) {
+            _score = score
+        }
         
         @MainActor @objc func handleTap(_ sender: UITapGestureRecognizer) {
             guard let arView = sender.view as? ARView,
                   let tappedEntity = arView.entity(at: sender.location(in: arView)),
                   tappedEntity.name == "SphereEntity" else { return }
-            //tappedEntity.parent.view.score += 5
+            
+            // Increment the score by 5 each time the sphere is tapped
+            self.score += 5
 
             // Capture the original position.
             let originalTranslation = tappedEntity.transform.translation
@@ -139,3 +148,24 @@ struct ARRealityView: UIViewRepresentable {
         }
     }
 }
+/*
+struct ScoreDisplay: View {
+    @Binding var score: Int
+    
+    var body: some View {
+        VStack {
+            Spacer() // This pushes the score to the bottom
+            Text("Score: \(score)")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding(10) // Add padding to text itself for spacing
+                .background(Color.black.opacity(0.5)) // Semi-transparent background around the text
+                .cornerRadius(8) // Optional: rounded corners
+                .padding(.bottom, 30) // Adjust the distance from the bottom
+                .frame(maxWidth: 200) // Shrink the frame around the score to fit the content
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom) // Keep the VStack aligned at the bottom
+        .background(Color.clear)
+    }
+} */
