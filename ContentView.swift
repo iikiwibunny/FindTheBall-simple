@@ -90,6 +90,8 @@ struct ARRealityView: UIViewRepresentable {
                tappedEntity.name == "SphereEntity" {
                 // Hide the sphere if it was tapped.
                 isModelVisible = false
+                var sparklePlayer = try! AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "sparkle", withExtension: "m4a")!)
+                sparklePlayer.play()
             }
         }
     }
