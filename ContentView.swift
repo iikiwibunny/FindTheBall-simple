@@ -16,6 +16,7 @@ struct ContentView: View {
                     let sphereEntity = Entity()
                     sphereEntity.components.set(modelComponent)
                     sphereEntity.generateCollisionShapes(recursive: true)
+                    sphereEntity.gesture
 
                     // Add tap gesture to remove entity when tapped
                     sphereEntity.components.set(InputTargetComponent())
